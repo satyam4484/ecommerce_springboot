@@ -1,54 +1,56 @@
 package com.ecommerce.ecommerce.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-enum ProductStatus {
-    AVAILABLE,
-    OUT_OF_STOCK,
-    DISCONTINUED
+enum PaymentStatus {
+    PENDING,
+    COMPLETED,
+    FAILED,
+    REFUNDED
+}
+enum PaymentMethod {
+    CREDIT_CARD,
+    DEBIT_CARD,
+    PAYPAL,
+    BANK_TRANSFER,
+    CASH_ON_DELIVERY
 }
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+@Entity
+public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String description;
-    private int price;
-    private int stock;
 
-    @ManyToOne
-    private Category category;
+    @OneToOne
+    private Order order;
 
-    @ManyToOne
-    private User seller;
-
-    @OneToMany(mappedBy = "product",cascade = CascadeType.ALL,orphanRemoval = true)
-    private List<ProductImage> images = new ArrayList<>();
+    private BigDecimal amount;
 
     @Enumerated(EnumType.STRING)
-    private ProductStatus status;
+    private PaymentStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod method;
+    
+    private String transactionId;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
