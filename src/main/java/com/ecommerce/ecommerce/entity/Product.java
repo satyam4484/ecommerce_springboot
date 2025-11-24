@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ecommerce.ecommerce.enums.ProductStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,11 +20,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-enum ProductStatus {
-    AVAILABLE,
-    OUT_OF_STOCK,
-    DISCONTINUED
-}
+
 
 @Entity
 @Getter

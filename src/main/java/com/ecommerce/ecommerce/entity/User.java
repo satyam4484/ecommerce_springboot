@@ -1,6 +1,8 @@
 package com.ecommerce.ecommerce.entity;
 import java.time.LocalDateTime;
 
+import com.ecommerce.ecommerce.enums.Role;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -12,12 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-enum Role {
-    ADMIN,
-    CUSTOMER,
-    SELLER
-}
 
 
 @Entity

@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ecommerce.ecommerce.enums.OrderStatus;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,16 +21,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-enum OrderStatus {
-    CREATED,
-    PAYMENT_PENDING,
-    PAID,
-    SHIPPED,
-    DELIVERED,
-    CANCELLED,
-    REFUNDED    
-}
 
 @Entity
 @Getter
