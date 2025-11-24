@@ -2,7 +2,6 @@ Roles
     -- ADMIN
     -- CUSTOMER 
     -- SELLER
-
 USER
     -- ID
     -- FULLNAME
