@@ -32,8 +32,7 @@ public class AuthServiceImpl implements AuthService {
             User user = authMapper.toUser(request);
             user.setPassword(passwordEncoder.encode(request.password()));
             userRepository.save(user);
-            String accessToken = jwtService.generateAccessToken(user);
-            AuthResponse auth = authMapper.toAuthResponse(user, accessToken);
+            AuthResponse auth = authMapper.toAuthResponse(user);
             return ApiResponse.success("Registration successful", auth, HttpStatus.CREATED);    
         }catch(Exception e){
             throw new AppException("Registration failed " +  e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

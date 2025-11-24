@@ -15,5 +15,5 @@ public interface AuthMapper {
     @Mapping(target = "updatedAt", expression = "java(java.time.LocalDateTime.now())")
     User toUser(RegisterRequest request);
 
-    AuthResponse toAuthResponse(User user, String accessToken);
+    AuthResponse toAuthResponse(User user);
 }

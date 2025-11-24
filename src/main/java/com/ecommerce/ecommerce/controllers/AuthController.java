@@ -1,5 +1,6 @@
 package com.ecommerce.ecommerce.controllers;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,6 +10,7 @@ import com.ecommerce.ecommerce.dto.RegisterRequest;
 import com.ecommerce.ecommerce.dto.common.ApiResponse;
 import com.ecommerce.ecommerce.service.interfaces.AuthService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -20,7 +22,9 @@ public class AuthController {
     
 
     @PostMapping("/register")
-    public ApiResponse<?> register(@RequestBody RegisterRequest request) {
-        return authService.register(request);
+    public ResponseEntity<ApiResponse<?>> register(@Valid @RequestBody RegisterRequest request) {
+        ApiResponse<?> response =  authService.register(request);
+        return ResponseEntity.status(response.getStatus()).body(response);
     }
+
 }
