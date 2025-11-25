@@ -66,4 +66,14 @@ public class GlobalExceptionHandler {
                 HttpStatus.NOT_FOUND);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(body);
     }
+
+    @ExceptionHandler(InvalidJwtException.class)
+    public ResponseEntity<ApiResponse<?>> handleInvalidJwt(InvalidJwtException ex) {
+        ApiResponse<?> body = ApiResponse.failure(
+                ex.getMessage(),
+                HttpStatus.UNAUTHORIZED);
+                
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(body);
+    }
+
 }

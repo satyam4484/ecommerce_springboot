@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.ecommerce.ecommerce.security.details.CustomUserDetailsService;
 import com.ecommerce.ecommerce.security.filters.JwtAuthenticationFilter;
+import com.ecommerce.ecommerce.security.jwt.JwtAuthenticationEntryPoint;
 
 import lombok.RequiredArgsConstructor;
 
@@ -23,6 +24,7 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final CustomUserDetailsService customUserDetailsService;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Value("${app.api.base-path}")
     private String apiBasePath;
@@ -32,23 +34,20 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
                 .authorizeHttpRequests(auth -> auth
-                        // Swagger & OpenAPI
                         .requestMatchers(
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**")
                         .permitAll()
                         .requestMatchers(
-                                apiBasePath + "/swagger-ui/**",
-                                apiBasePath + "/v3/api-docs/**")
+                                apiBasePath + "/auth/**")
                         .permitAll()
-                        .requestMatchers(apiBasePath+"/address").hasRole("CUSTOMER")
-                        // Auth endpoints
-                        .requestMatchers(apiBasePath + "/auth/**").permitAll()
-                        // .requestMatchers("/**/*").permitAll()
-
-                        // Everything else needs JWT
-                        .anyRequest().authenticated())
+                        .requestMatchers(apiBasePath + "/address").hasRole("CUSTOMER")
+                        .anyRequest().authenticated()
+                )
                 .userDetailsService(customUserDetailsService);
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
