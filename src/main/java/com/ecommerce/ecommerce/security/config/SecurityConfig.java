@@ -42,6 +42,7 @@ public class SecurityConfig {
                                 apiBasePath + "/swagger-ui/**",
                                 apiBasePath + "/v3/api-docs/**")
                         .permitAll()
+                        .requestMatchers(apiBasePath+"/address").hasRole("CUSTOMER")
                         // Auth endpoints
                         .requestMatchers(apiBasePath + "/auth/**").permitAll()
                         // .requestMatchers("/**/*").permitAll()

@@ -16,19 +16,26 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    // username = email
+    // username = userId as String (coming from JWT subject)
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String userIdStr) throws UsernameNotFoundException {
 
-        User user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + username));
+        Long userId;
+        try {
+            userId = Long.parseLong(userIdStr);
+        } catch (NumberFormatException ex) {
+            throw new UsernameNotFoundException("Invalid user id in token: " + userIdStr);
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
 
         List<GrantedAuthority> authorities =
                 List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()));
 
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),      // username
-                user.getPassword(),   // encoded password
+                String.valueOf(user.getId()), // principal name = userId string
+                user.getPassword(),
                 true,
                 true,
                 true,

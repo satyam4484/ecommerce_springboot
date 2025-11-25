@@ -55,5 +55,7 @@ public class AuthServiceImpl implements AuthService {
             throw new AppException("Login failed " +  e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    
     
 }
