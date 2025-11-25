@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import com.ecommerce.ecommerce.dto.RegisterRequest;
 import com.ecommerce.ecommerce.dto.auth.AuthResponse;
+import com.ecommerce.ecommerce.dto.auth.LoginRequest;
+import com.ecommerce.ecommerce.dto.auth.LoginResponse;
 import com.ecommerce.ecommerce.dto.common.ApiResponse;
 import com.ecommerce.ecommerce.entity.User;
 import com.ecommerce.ecommerce.exceptions.AppException;
@@ -36,6 +38,21 @@ public class AuthServiceImpl implements AuthService {
             return ApiResponse.success("Registration successful", auth, HttpStatus.CREATED);    
         }catch(Exception e){
             throw new AppException("Registration failed " +  e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public ApiResponse<?>login(LoginRequest request) {
+        try{
+            User user = userRepository.findByEmail(request.email()).orElseThrow(()-> new AppException("User not found",HttpStatus.NOT_FOUND));
+            if(!passwordEncoder.matches(request.password(), user.getPassword())){
+                return ApiResponse.failure("Invalid credentials",HttpStatus.UNAUTHORIZED);
+            }
+            String accessToken = jwtService.generateAccessToken(user);
+            Long expiresIn = jwtService.getExpirationInMs();
+            LoginResponse loginResponse = authMapper.toLoginResponse(accessToken, expiresIn);
+            return ApiResponse.success("Login successful", loginResponse, HttpStatus.OK);
+        }catch(Exception e){
+            throw new AppException("Login failed " +  e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
     

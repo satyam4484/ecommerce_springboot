@@ -36,6 +36,10 @@ public class JwtService {
                 .compact();
     }
 
+    public Long getExpirationInMs() {
+        return accessTokenExpirationMs;
+    }
+
     public Long extractUserId(String token) {
         return Long.parseLong(Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))

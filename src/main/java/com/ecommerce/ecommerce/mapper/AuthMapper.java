@@ -5,6 +5,7 @@ import org.mapstruct.Mapping;
 
 import com.ecommerce.ecommerce.dto.RegisterRequest;
 import com.ecommerce.ecommerce.dto.auth.AuthResponse;
+import com.ecommerce.ecommerce.dto.auth.LoginResponse;
 import com.ecommerce.ecommerce.entity.User;
 
 @Mapper(componentModel = "spring")
@@ -16,4 +17,6 @@ public interface AuthMapper {
     User toUser(RegisterRequest request);
 
     AuthResponse toAuthResponse(User user);
+
+    LoginResponse toLoginResponse(String accessToken, Long expiresIn);
 }

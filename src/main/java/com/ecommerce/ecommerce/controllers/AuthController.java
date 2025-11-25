@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.ecommerce.dto.RegisterRequest;
+import com.ecommerce.ecommerce.dto.auth.LoginRequest;
 import com.ecommerce.ecommerce.dto.common.ApiResponse;
 import com.ecommerce.ecommerce.service.interfaces.AuthService;
 
@@ -20,11 +21,15 @@ public class AuthController {
 
     private final AuthService authService;
     
-
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<?>> register(@Valid @RequestBody RegisterRequest request) {
         ApiResponse<?> response =  authService.register(request);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<?>> login(@Valid @RequestBody LoginRequest request) {
+        ApiResponse<?> response =  authService.login(request);
+        return ResponseEntity.status(response.getStatus()).body(response);
+    }
 }
