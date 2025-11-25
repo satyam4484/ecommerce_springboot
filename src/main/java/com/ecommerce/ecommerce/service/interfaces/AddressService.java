@@ -6,5 +6,6 @@ import com.ecommerce.ecommerce.dto.common.ApiResponse;
 
 public interface AddressService {
     ApiResponse<?> addAddress(Long userId, AddressRequest addressRequest);
+    ApiResponse<?> getUserAddress(Long userId);
     
 }
