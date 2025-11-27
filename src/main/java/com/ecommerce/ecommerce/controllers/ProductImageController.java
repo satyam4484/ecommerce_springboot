@@ -24,5 +24,4 @@ public class ProductImageController {
         ApiResponse<?> response = productImageService.uploadProductImage(file);
         return ResponseEntity.status(response.getStatus()).body(response);
     }
-    
 }

@@ -44,6 +44,7 @@ public class SecurityConfig {
                                                 ).permitAll()
                                                 .requestMatchers(apiBasePath + "/auth/**").permitAll()
                                                 .requestMatchers(apiBasePath + "/address").hasRole("CUSTOMER")
+                                                .requestMatchers(apiBasePath + "/products").hasRole("SELLER")
                                                 .anyRequest().authenticated())
                                 .userDetailsService(customUserDetailsService);
 
