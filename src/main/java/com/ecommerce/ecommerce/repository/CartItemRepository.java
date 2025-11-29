@@ -10,4 +10,5 @@ import com.ecommerce.ecommerce.entity.CartItem;
 public interface CartItemRepository extends JpaRepository<CartItem, Long> {
     List<CartItem> findByCartId(Long cartId);
     Optional<CartItem> findByCartIdAndProductId(Long cartId, Long productId);
+    // select c from CartItem c where c.cart.id = :cartId and c.product.id = :productId
 }
